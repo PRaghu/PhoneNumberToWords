@@ -18,12 +18,12 @@ defmodule PhonenumberToWords do
       :valid ->
         GenServer.call(PhonenumberToWords, phonenumber_str)
       :invalid ->
-        "Invalid input"
+        "Invalid Phonenumber"
     end
   end
 
   def convert(_) do
-    "Invalid Input"
+    "Invalid Phonenumber"
   end
 
 ###-----------------------------------------------------
