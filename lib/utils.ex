@@ -15,6 +15,7 @@ defmodule Utils do
       iex>Utils.to_number_str("a")
       "2"
   """
+  @spec to_number_str(binary()) :: binary()
   def to_number_str(ch) when ch == "a" or ch == "b" or ch == "c", do: "2"
   def to_number_str(ch) when ch == "d" or ch == "e" or ch == "f", do: "3"
   def to_number_str(ch) when ch == "g" or ch == "h" or ch == "i", do: "4"
@@ -35,6 +36,7 @@ defmodule Utils do
        iex>Utils.to_str(6645)
        "6645"
   """
+  @spec to_str(integer()) :: binary()
   def to_str(value) when is_integer(value), do: Integer.to_string(value)
   
 end

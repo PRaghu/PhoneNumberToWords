@@ -45,7 +45,7 @@ defmodule PhonenumberToWords do
       iex> PhonenumberToWords.convert("asdfghj123")
       "Invalid input"
   """
-  @spec convert(Integer) :: String | List
+  @spec convert(any()) :: binary() | list()
   def convert(phonenumber) when is_integer(phonenumber) do
     phonenumber_str = Utils.to_str(phonenumber)
 
