@@ -1,5 +1,20 @@
 defmodule Utils do
+  @moduledoc """
+  Utility Functions
+  """
 
+  @doc """
+  Converts character to number string
+
+  ## Parameter
+
+      -ch: character (lowercase alphabets)
+
+  ## Example
+
+      iex>Utils.to_number_str("a")
+      "2"
+  """
   def to_number_str(ch) when ch == "a" or ch == "b" or ch == "c", do: "2"
   def to_number_str(ch) when ch == "d" or ch == "e" or ch == "f", do: "3"
   def to_number_str(ch) when ch == "g" or ch == "h" or ch == "i", do: "4"
@@ -9,6 +24,17 @@ defmodule Utils do
   def to_number_str(ch) when ch == "t" or ch == "u" or ch == "v", do: "8"
   def to_number_str(ch) when ch == "w" or ch == "x" or ch == "y" or ch == "z", do: "9"
 
+  @doc """
+  Converts integer value to string
+
+  ## Parameter
+       -value: Integer
+
+  ## Example
+
+       iex>Utils.to_str(6645)
+       "6645"
+  """
   def to_str(value) when is_integer(value), do: Integer.to_string(value)
   
 end

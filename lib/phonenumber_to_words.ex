@@ -1,4 +1,7 @@
 defmodule PhonenumberToWords do
+  @moduledoc """
+  Provides a function `convert/1` to find the available words for the Phonenumber.
+  """
 
   use GenServer
 
@@ -6,10 +9,42 @@ defmodule PhonenumberToWords do
 ### API
 ###----------------------------------------------------
 
+  @doc """
+  Start the server and register it locally with module name
+  """
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts, name: PhonenumberToWords)
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
+  @doc """
+  Converts the given phonenumber to dictionary words.
+
+  ## Parameters
+
+      -number: Postive integer with 10 digits and should not contain 0 and 1
+
+  ## Examples
+
+      iex> PhonenumberToWords.convert(6686787825)
+      [
+        ["onto", "struck"],
+        ["noun", "struck"],
+        ["nouns", "usual"],
+        ["nouns", "truck"],
+        ["motor", "usual"],
+        ["motor", "truck"],
+        "motortruck"
+      ]
+
+      iex> PhonenumberToWords.convert(6686787815)
+      Invalid input"
+
+      iex> PhonenumberToWords.convert(123)
+      "Invalid input"
+
+      iex> PhonenumberToWords.convert("asdfghj123")
+      "Invalid input"
+  """
   @spec convert(Integer) :: String | List
   def convert(phonenumber) when is_integer(phonenumber) do
     phonenumber_str = Utils.to_str(phonenumber)
@@ -64,7 +99,14 @@ defmodule PhonenumberToWords do
 ### Internal Functions
 ###----------------------------------------------------
 
-  def assign_num_to_word(word, acc) do
+# @doc """
+# assigns numberstring to the dictionary word and adds to accumlater
+
+# ## Examples
+#     iex> PhonenumberToWords.assign_num_to_word("unjust", %{})
+#     %{"865878" => ["unjust"]}
+# """
+  defp assign_num_to_word(word, acc) do
     num_str = 
       Enum.join for char <- String.codepoints(word), do: Utils.to_number_str(char)
 
@@ -76,7 +118,7 @@ defmodule PhonenumberToWords do
     end
   end
 
-  def validate_str(phonenumber) do
+  defp validate_str(phonenumber) do
     case String.length(phonenumber) === 10 do
       true ->
         case :re.run(phonenumber, "[0-1]", [:global]) do
@@ -87,7 +129,7 @@ defmodule PhonenumberToWords do
     end
   end
 
-  def get_words({number_str1, number_str2}, words_list) do
+  defp get_words({number_str1, number_str2}, words_list) do
     case [Map.get(words_list, number_str1), Map.get(words_list, number_str2)] do
       [list1, list2] when list1 != [] and list1 != nil and list2 != [] and list2 != nil ->
         for item1 <- list1, item2 <- list2, do: [item1, item2]
