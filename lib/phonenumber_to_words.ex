@@ -37,13 +37,13 @@ defmodule PhonenumberToWords do
       ]
 
       iex> PhonenumberToWords.convert(6686787815)
-      Invalid input"
+      "Invalid Phonenumber"
 
       iex> PhonenumberToWords.convert(123)
-      "Invalid input"
+      "Invalid Phonenumber"
 
       iex> PhonenumberToWords.convert("asdfghj123")
-      "Invalid input"
+      "Invalid Phonenumber"
   """
   @spec convert(any()) :: binary() | list()
   def convert(phonenumber) when is_integer(phonenumber) do
