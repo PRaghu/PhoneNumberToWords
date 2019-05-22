@@ -1,6 +1,5 @@
 defmodule PhonenumberToWords do
-  require Logger
-  
+
   use GenServer
 
 ###-----------------------------------------------------
@@ -11,8 +10,8 @@ defmodule PhonenumberToWords do
     GenServer.start_link(__MODULE__, opts, name: PhonenumberToWords)
   end
 
-  @spec transform(Integer) :: String | List
-  def transform(phonenumber) when is_integer(phonenumber) do
+  @spec convert(Integer) :: String | List
+  def convert(phonenumber) when is_integer(phonenumber) do
     phonenumber_str = Utils.to_str(phonenumber)
 
     case validate_str(phonenumber_str) do
@@ -23,8 +22,7 @@ defmodule PhonenumberToWords do
     end
   end
 
-
-  def transform(_) do
+  def convert(_) do
     "Invalid Input"
   end
 
@@ -49,9 +47,17 @@ defmodule PhonenumberToWords do
   end
   
   @impl true
-  def handle_call(number, _from, state) do
-    :ok = Logger.info "Transform number to words: #{inspect(number)}"
-    {:reply, "Words", state}
+  def handle_call(phonenumber, _from, %{words: words_list} = state) do
+
+    number_split_list =  for number <- Enum.to_list(3..7),
+      do: String.split_at(phonenumber, number)
+
+    words = Enum.concat(for number_strs <- number_split_list,
+      do: get_words(number_strs, words_list))
+
+    result = words ++ Map.get(words_list, phonenumber, [])
+    {:reply, result, state}
+
   end
 
 ###-----------------------------------------------------
@@ -78,6 +84,15 @@ defmodule PhonenumberToWords do
           _ -> :invalid
         end
       false -> :invalid
+    end
+  end
+
+  def get_words({number_str1, number_str2}, words_list) do
+    case [Map.get(words_list, number_str1), Map.get(words_list, number_str2)] do
+      [list1, list2] when list1 != [] and list1 != nil and list2 != [] and list2 != nil ->
+        for item1 <- list1, item2 <- list2, do: [item1, item2]
+      _list ->
+        []
     end
   end
 
