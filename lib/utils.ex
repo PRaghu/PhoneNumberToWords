@@ -8,6 +8,8 @@ defmodule Utils do
   def to_number_str(ch) when ch == "p" or ch == "q" or ch == "r" or ch == "s", do: "7"
   def to_number_str(ch) when ch == "t" or ch == "u" or ch == "v", do: "8"
   def to_number_str(ch) when ch == "w" or ch == "x" or ch == "y" or ch == "z", do: "9"
+
+  def to_str(value) when is_integer(value), do: Integer.to_string(value)
   
 end
 
