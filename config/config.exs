@@ -11,6 +11,7 @@ use Mix.Config
 # You can configure your application as:
 #
 #     config :phonenumber_to_words, key: :value
+  config :phonenumber_to_words, dictionary_file_path: "priv/dictionary.txt"
 #
 # and access this configuration in your application as:
 #
